@@ -3,6 +3,7 @@ import axios from "axios";
 import "./styles.css";
 import Navbar from "./components/Navbar.jsx";
 import Tabs from "./components/Tabs.jsx";
+import Header from "./components/Header.jsx";
 
 export default class App extends React.Component {
   constructor() {
@@ -10,7 +11,6 @@ export default class App extends React.Component {
     this.state = {
       lists: [],
     };
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   setLists = (childData) => {
@@ -22,25 +22,14 @@ export default class App extends React.Component {
       <div>
         <Navbar />
 
-        <section className="section">
-          <div className="container pt-3 has-text-centered">
-            <h1 className="title">Sonarr-Trakt</h1>
-            <p className="subtitle">
-              Import shows from your favourite{" "}
-              <a href="trakt.tv" target="_blank">
-                Trakt.tv
-              </a>{" "}
-              lists directly into <strong>Sonarr!</strong>
-            </p>
-          </div>
-        </section>
+        <Header />
 
         <Tabs lists={this.state.lists} addList={this.setLists} />
       </div>
     );
   }
 
-  handleSubmit(e) {
+  /*handleSubmit(e) {
     e.preventDefault();
     var usr = this.refs.user.value;
     console.log(usr);
@@ -82,7 +71,6 @@ export default class App extends React.Component {
         this.setState({ res: json });
         console.log(json);
       });*/
-  }
 }
 
 // "Content-Type: application/json" -H "trakt-api-version: 2" -H "trakt-api-key: d04f391566cf6107225a431341d4272622eedda1e26abf49b5623899d29fb89d" https://api.trakt.tv/users/painbringer112/lists/netflix-top-10-shows/items

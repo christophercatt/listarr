@@ -6,10 +6,13 @@ const List = (props) => {
   const [isAddingList, setIsAddingList] = useState(false);
 
   const lists = props.lists;
-  const callbackFunction = (childData) => {
-    let l = lists;
-    l.push(childData);
-    props.addList(l);
+  const setList = (childData) => {
+    if (childData !== null) {
+      let l = lists;
+      l.push(childData);
+      props.addList(l);
+    }
+
     setIsAddingList(false);
   };
 
@@ -24,7 +27,7 @@ const List = (props) => {
 
   return (
     <section className="section">
-      {isAddingList && <AddList addList={callbackFunction} />}
+      {isAddingList && <AddList addList={setList} />}
       {!isAddingList && (
         <div>
           <div className="container has-text-centered">{displayLists}</div>
