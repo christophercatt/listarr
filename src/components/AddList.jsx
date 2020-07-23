@@ -36,6 +36,7 @@ const AddList = (props) => {
             <label className="label">Trakt.tv Username</label>
             <div className="control">
               <input
+                id="userName"
                 type="text"
                 className="input"
                 placeholder="e.g. 'painbringer112'"
@@ -96,7 +97,9 @@ const AddList = (props) => {
           </div>
           <div className="control">
             <button
-              onClick={() => props.addList("1")}
+              onClick={() =>
+                props.addList(document.getElementById("userName").value)
+              }
               className="button is-link"
             >
               Add
