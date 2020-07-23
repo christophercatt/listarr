@@ -1,6 +1,6 @@
 import React from "react";
 
-const AddList = () => {
+const AddList = (props) => {
   return (
     <section className="section">
       <div className="columns is-centered">
@@ -29,7 +29,12 @@ const AddList = () => {
           <div className="field">
             <div className="control">
               <div className="buttons is-centered">
-                <button className="button is-link  mt-3">Add</button>
+                <button
+                  onClick={() => props.addList("1")}
+                  className="button is-link  mt-3"
+                >
+                  Add
+                </button>
               </div>
             </div>
           </div>

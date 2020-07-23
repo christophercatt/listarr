@@ -1,20 +1,21 @@
 import React from "react";
 import axios from "axios";
 import "./styles.css";
-import Card from "./components/Card.jsx";
 import Navbar from "./components/Navbar.jsx";
 import Tabs from "./components/Tabs.jsx";
-import Settings from "./components/Settings.jsx";
-import AddList from "./components/AddList.jsx";
 
 export default class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      shows: [],
+      lists: [],
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
+  setLists = (childData) => {
+    this.setState({ lists: childData });
+  };
 
   /*componentDidMount() {
     axios.get("/api/hello").then((response) => {
@@ -23,12 +24,6 @@ export default class App extends React.Component {
   }*/
 
   render() {
-    var shows = this.state.shows;
-    console.log("shows = " + this.state.shows);
-    shows = shows.map(function (s, index) {
-      console.log(s);
-      return <Card name={s.show.title} />;
-    });
     return (
       <div>
         <Navbar />
@@ -43,36 +38,7 @@ export default class App extends React.Component {
           </div>
         </section>
 
-        <section className="section">
-          <Tabs />
-          <Settings />
-          <AddList />
-        </section>
-
-        <section className="section">
-          <div className="columns is-centered">
-            <div className="column is-half">
-              <div className="buttons is-centered">
-                <button className="button is-primary is-loading">
-                  Add a show
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <div id="content">
-          <form id="search" onSubmit={this.handleSubmit}>
-            <label>Enter Trakt.tv Username:</label>
-            <input type="text" ref="user" placeholder="username" required />
-            <label>Enter User List Name:</label>
-            <input type="text" ref="list" placeholder="list name" required />
-            <input type="submit" value="Find Trakt.tv List" />
-          </form>
-          <div className="container">
-            <div className="columns is-multiline">{shows}</div>
-          </div>
-        </div>
+        <Tabs lists={this.state.lists} addList={this.setLists} />
       </div>
     );
   }
