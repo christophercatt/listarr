@@ -1,6 +1,11 @@
 import React from "react";
 import axios from "axios";
 import "./styles.css";
+import Card from "./components/Card.jsx";
+import Navbar from "./components/Navbar.jsx";
+import Tabs from "./components/Tabs.jsx";
+import Settings from "./components/Settings.jsx";
+import AddList from "./components/AddList.jsx";
 
 export default class App extends React.Component {
   constructor() {
@@ -22,23 +27,52 @@ export default class App extends React.Component {
     console.log("shows = " + this.state.shows);
     shows = shows.map(function (s, index) {
       console.log(s);
-      return (
-        <li key={index}>
-          <span className="title">{s.show.title}</span>
-        </li>
-      );
+      return <Card name={s.show.title} />;
     });
     return (
-      <div id="content">
-        <h1>React-App</h1>
-        <form id="search" onSubmit={this.handleSubmit}>
-          <label>Enter Trakt.tv Username:</label>
-          <input type="text" ref="user" placeholder="username" required />
-          <label>Enter User List Name:</label>
-          <input type="text" ref="list" placeholder="list name" required />
-          <input type="submit" value="Find Trakt.tv List" />
-        </form>
-        <ul>{shows}</ul>
+      <div>
+        <Navbar />
+
+        <section className="section">
+          <div className="container pt-3 has-text-centered">
+            <h1 className="title">Sonarr-Trakt</h1>
+            <p className="subtitle">
+              Import shows from your favourite <a href="#">Trakt.tv</a> lists
+              directly into <strong>Sonarr!</strong>
+            </p>
+          </div>
+        </section>
+
+        <section className="section">
+          <Tabs />
+          <Settings />
+          <AddList />
+        </section>
+
+        <section className="section">
+          <div className="columns is-centered">
+            <div className="column is-half">
+              <div className="buttons is-centered">
+                <button className="button is-primary is-loading">
+                  Add a show
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div id="content">
+          <form id="search" onSubmit={this.handleSubmit}>
+            <label>Enter Trakt.tv Username:</label>
+            <input type="text" ref="user" placeholder="username" required />
+            <label>Enter User List Name:</label>
+            <input type="text" ref="list" placeholder="list name" required />
+            <input type="submit" value="Find Trakt.tv List" />
+          </form>
+          <div className="container">
+            <div className="columns is-multiline">{shows}</div>
+          </div>
+        </div>
       </div>
     );
   }
