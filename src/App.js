@@ -17,12 +17,6 @@ export default class App extends React.Component {
     this.setState({ lists: childData });
   };
 
-  /*componentDidMount() {
-    axios.get("/api/hello").then((response) => {
-      this.setState({ res: response.data });
-    });
-  }*/
-
   render() {
     return (
       <div>
