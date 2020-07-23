@@ -32,8 +32,11 @@ export default class App extends React.Component {
           <div className="container pt-3 has-text-centered">
             <h1 className="title">Sonarr-Trakt</h1>
             <p className="subtitle">
-              Import shows from your favourite <a href="#">Trakt.tv</a> lists
-              directly into <strong>Sonarr!</strong>
+              Import shows from your favourite{" "}
+              <a href="trakt.tv" target="_blank">
+                Trakt.tv
+              </a>{" "}
+              lists directly into <strong>Sonarr!</strong>
             </p>
           </div>
         </section>
