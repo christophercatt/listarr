@@ -13,10 +13,6 @@ app.use(express.static(path.join(__dirname, "..", "build")));
 
 app.use("/", defaultRoute);
 
-app.get("/", (req, res) => {
-  res.json("This is from express.js");
-});
-
 // start express server on port 5000
 app.listen(5000, () => {
   console.log("server started on port 5000");

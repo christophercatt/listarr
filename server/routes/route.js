@@ -4,7 +4,7 @@ var router = express.Router();
 
 var shows = new Set();
 
-try {
+/*try {
   axios
     .get("https://sonarr.chriscatt.com/api/series", {
       headers: {
@@ -26,10 +26,36 @@ try {
     });
 } catch (err) {
   console.log(err);
-}
+}*/
 
 router.get("/api/hello", (req, res) => {
   res.json("hello react");
+});
+
+router.post("/test-connection", async (req, res) => {
+  let url = req.body.url;
+  let apiKey = req.body.apiKey;
+
+  url = `${url}/api/system/status`;
+
+  try {
+    let response = await axios
+      .get(url, {
+        headers: {
+          "Content-Type": "application/json",
+          "X-Api-Key": apiKey,
+        },
+      })
+      .then((data) => {
+        return data.data;
+      })
+      .catch((err) => {
+        return err;
+      });
+    res.send(JSON.stringify(response));
+  } catch (err) {
+    console.log("err");
+  }
 });
 
 router.post("/trakt/list", async (req, res) => {
