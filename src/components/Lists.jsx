@@ -16,7 +16,23 @@ const List = (props) => {
     setIsAddingList(false);
   };
 
-  const l = lists.map((list, index) => <Card name={list} />);
+  const deleteList = (childData) => {
+    if (childData !== null) {
+      let l = lists;
+      const index = l.indexOf(childData);
+
+      if (index > -1) {
+        l.splice(index, 1);
+        props.addList(l);
+      }
+    }
+
+    setIsAddingList(false);
+  };
+
+  const l = lists.map((list, index) => (
+    <Card name={list} deleteList={deleteList} />
+  ));
 
   let displayLists;
   if (lists.length === 0) {

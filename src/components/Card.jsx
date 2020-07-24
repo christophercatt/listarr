@@ -1,11 +1,19 @@
 import React from "react";
 
 const Card = (props) => {
-  const toggleModal = (e) => {
-    e.preventDefault();
+  function toggleModal() {
+    //e.preventDefault();
     const modal = document.getElementById(props.name);
     modal.classList.toggle("is-active");
-  };
+  }
+
+  function modalControl(id) {
+    if (id === null) {
+      props.deleteList(null);
+    } else {
+      props.deleteList(id);
+    }
+  }
 
   return (
     <div className="column is-one-third">
@@ -19,6 +27,27 @@ const Card = (props) => {
         <div class="modal-content">
           <div className="box">
             <h5 className="subtitle">{props.name}</h5>
+
+            <div className="buttons is-right">
+              <button
+                onClick={() => {
+                  props.deleteList(props.name);
+                  toggleModal();
+                }}
+                className="button is-link is-light"
+              >
+                Delete
+              </button>
+              <button
+                onClick={() => {
+                  props.deleteList(null);
+                  toggleModal();
+                }}
+                className="button is-link"
+              >
+                Cancel
+              </button>
+            </div>
           </div>
         </div>
         <button
