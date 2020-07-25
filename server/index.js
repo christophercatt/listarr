@@ -7,8 +7,8 @@ const path = require("path");
 const SonarrRepository = require("./repositories/SonarrRepository");
 
 const sonarr = new SonarrRepository(
-  "https://sonarr.chriscatt.com",
-  "dbba8221e16a40b0bf16772d333a18aa"
+  "",
+  ""
 );
 
 async function testSonnarGetExisting() {
@@ -22,8 +22,8 @@ testSonnarGetExisting();
 /*
 async function testSonarrConnection() {
   let test = await sonarr.testConnection(
-    "https://sonaarr.chriscatt.com",
-    "dbba8221e16a40b0bf16772d333a18aa"
+    "",
+    ""
   );
 
   console.log(test);
@@ -31,6 +31,43 @@ async function testSonarrConnection() {
 
 testSonarr();
 */
+
+/* Tests for TraktRepository
+ **
+const TraktRepository = require("./repositories/TraktRepository");
+
+const trakt = new TraktRepository(
+  ""
+);
+
+/*async function testUserWatchList() {
+  let test = await trakt.getUserWatchList("lish408");
+
+  console.log(test);
+}
+
+testUserWatchList();*/
+
+/*async function testTraktCurated() {
+  let test = await trakt.getTraktCuratedList("popular");
+
+  console.log(test);
+}
+
+testTraktCurated();*/
+
+/*async function testUserCustomList() {
+  let test = await trakt.getUserCustomList(
+    "painbringer112",
+    "netflix-top-10-shows"
+  );
+
+  console.log(test);
+}
+
+testUserCustomList();*/
+/*
+ */
 
 var defaultRoute = require("./routes/route");
 

@@ -50,11 +50,13 @@ class SonarrRepository {
         });
       })
       .catch((err) => {
-        shows = "Error Recieving Existing Shows";
+        shows = "Error Receiving Existing Shows";
       });
 
     return shows;
   }
+
+  itemLookup() {}
 
   addList() {}
 }
