@@ -11,13 +11,37 @@ const sonarr = new SonarrRepository(
   ""
 );
 
-async function testSonnarGetExisting() {
+/*async function testGetRootFolders() {
+  let test = await sonarr.getRootFolder();
+
+  console.log(test);
+}
+
+testGetRootFolders();*/
+
+/*async function testGetProfiles() {
+  let test = await sonarr.getQualityProfiles();
+
+  console.log(test);
+}
+
+testGetProfiles();*/
+
+/*async function testListLookup() {
+  let test = await sonarr.listLookup([{ title: "Arrow", tvdb: 257655 }]);
+
+  console.log(test);
+}
+
+testListLookup();*/
+
+/*async function testSonnarGetExisting() {
   let test = await sonarr.getExistingSeries();
 
   console.log(test);
 }
 
-testSonnarGetExisting();
+testSonnarGetExisting();*/
 
 /*
 async function testSonarrConnection() {
