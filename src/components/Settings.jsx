@@ -2,44 +2,51 @@ import React from "react";
 import axios from "axios";
 
 const Settings = () => {
-  const testConnection = async () => {
+  const connection = async (type) => {
     let url = document.getElementById("url").value;
-    let apiKey = document.getElementById("apiKey").value;
-    const button = document.getElementById("testConnection");
+    let sonarrApiKey = document.getElementById("sonarrApiKey").value;
+    let traktApiKey = document.getElementById("traktApiKey").value;
+    let button;
+    let postUrl;
+
+    let data = {
+      url: url,
+      sonarrApiKey: sonarrApiKey,
+      traktApiKey: traktApiKey,
+    };
+
+    //type = true then test, else save
+    if (type) {
+      button = document.getElementById("testConnection");
+      postUrl = "/connection/test";
+    } else {
+      data.interval = document.getElementById("interval").value;
+      button = document.getElementById("saveConnection");
+      postUrl = "/connection/save";
+    }
 
     button.classList.toggle("is-loading");
 
-    let resp = await axios
-      .post("/test-connection", {
-        url: url,
-        apiKey: apiKey,
-      })
-      .then((data) => {
-        return data.data;
-      });
+    let response = await axios.post(postUrl, data).then((data) => {
+      return data.data;
+    });
 
     let err = true;
 
-    if (resp.hasOwnProperty("version")) {
+    if (response === "Success") {
       err = false;
-      button.innerHTML = "Success";
-    } else if (resp.hasOwnProperty("code")) {
-      button.innerHTML = "Invalid URL";
-    } else if (resp.hasOwnProperty("stack") && !resp.hasOwnProperty("code")) {
-      button.innerHTML = "Invalid API Key";
-    } else {
-      button.innerHTML = "Unknown Error";
     }
+
+    button.innerHTML = response;
+    button.classList.toggle("is-loading");
 
     if (err == true) {
       button.classList.remove("is-link");
       button.classList.add("is-danger");
     }
 
-    button.classList.toggle("is-loading");
-
     setTimeout(() => {
-      button.innerHTML = "Test Connection";
+      button.innerHTML = type ? "Test Connection" : "Save";
       if (err == true) {
         button.classList.remove("is-danger");
         button.classList.add("is-link");
@@ -67,10 +74,10 @@ const Settings = () => {
             </p>
           </div>
           <div className="field">
-            <label className="label">API Key</label>
+            <label className="label">Sonarr API Key</label>
             <div className="control">
               <input
-                id="apiKey"
+                id="sonarrApiKey"
                 type="text"
                 className="input"
                 placeholder="In 'Settings > General > Security'"
@@ -78,9 +85,21 @@ const Settings = () => {
             </div>
           </div>
           <div className="field">
+            <label className="label">Trakt API Key</label>
+            <div className="control">
+              <input
+                id="traktApiKey"
+                type="text"
+                className="input"
+                placeholder="Create at https://trakt.tv/oauth/applications/new"
+              />
+            </div>
+          </div>
+          <div className="field">
             <label className="label">Update Interval (In Minutes)</label>
             <div className="control">
               <input
+                id="interval"
                 type="number"
                 min="30"
                 max="10080"
@@ -90,22 +109,28 @@ const Settings = () => {
               />
             </div>
             <p className="help">
-              How often to check for list updates. (Min. 30 minutes, Max. 10080
-              minutes - one week)
+              How often to check for list updates. Default 60. (Min. 30 minutes,
+              Max. 10080 minutes - one week)
             </p>
           </div>
           <div className="field is-grouped">
             <div className="control">
               <button
                 id="testConnection"
-                onClick={testConnection}
+                onClick={() => connection(true)}
                 className="button is-link is-light"
               >
                 Test Connection
               </button>
             </div>
             <div className="control">
-              <button className="button is-link">Save</button>
+              <button
+                id="saveConnection"
+                onClick={() => connection(false)}
+                className="button is-link"
+              >
+                Save
+              </button>
             </div>
           </div>
         </div>

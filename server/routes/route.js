@@ -1,6 +1,9 @@
 var express = require("express");
 var axios = require("axios");
 var router = express.Router();
+const RespositoryController = require("../repositories/RepositoryController");
+
+const repository = new RespositoryController();
 
 var shows = new Set();
 
@@ -32,30 +35,25 @@ router.get("/api/hello", (req, res) => {
   res.json("hello react");
 });
 
-router.post("/test-connection", async (req, res) => {
-  let url = req.body.url;
-  let apiKey = req.body.apiKey;
+router.post("/connection/test", async (req, res) => {
+  let connectionStatus = await repository.testSettings(
+    req.body.url,
+    req.body.sonarrApiKey,
+    req.body.traktApiKey
+  );
 
-  url = `${url}/api/system/status`;
+  res.send(connectionStatus);
+});
 
-  try {
-    let response = await axios
-      .get(url, {
-        headers: {
-          "Content-Type": "application/json",
-          "X-Api-Key": apiKey,
-        },
-      })
-      .then((data) => {
-        return data.data;
-      })
-      .catch((err) => {
-        return err;
-      });
-    res.send(JSON.stringify(response));
-  } catch (err) {
-    console.log("err");
-  }
+router.post("/connection/save", async (req, res) => {
+  let setStatus = await repository.setSettings(
+    req.body.url,
+    req.body.sonarrApiKey,
+    req.body.traktApiKey,
+    req.body.interval
+  );
+
+  res.send(setStatus);
 });
 
 router.post("/trakt/list", async (req, res) => {

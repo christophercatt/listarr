@@ -22,9 +22,9 @@ class SonarrRepository {
       })
       .catch((err) => {
         if (err.hasOwnProperty("code")) {
-          return "Invalid URL";
+          return "Sonarr URL Invalid";
         } else if (err.hasOwnProperty("stack") && !err.hasOwnProperty("code")) {
-          return "Invalid API Key";
+          return "Sonarr API Key Invalid";
         } else {
           return "Unknown Error";
         }
@@ -133,7 +133,6 @@ class SonarrRepository {
         })
         .catch((err) => {
           failed.push(show.title);
-          //shows = "Show Not Found - is Trakt ID Correct?";
         });
     }
 
@@ -144,7 +143,37 @@ class SonarrRepository {
     return shows;
   }
 
-  addList() {}
+  async addList(list) {
+    const url = `${this.baseUrl}/series`;
+    let failed = [];
+
+    for (const show of list) {
+      let data = {
+        tvdbId: show.tvdb,
+        title: show.title,
+        profileId: show.profileId,
+        titleSlug: show.titleSlug,
+        images: show.images,
+        seasons: shows.seasons,
+        rootFolderPath: show.path,
+        monitored: true,
+      };
+
+      await axios
+        .post(url, data, {
+          headers: {
+            "Content-Type": this.contentType,
+            "X-Api-Key": this.apiKey,
+          },
+        })
+        .then((data) => {
+          console.log(data.data.title);
+        })
+        .catch((err) => {
+          failed.push(show.title);
+        });
+    }
+  }
 }
 
 module.exports = SonarrRepository;

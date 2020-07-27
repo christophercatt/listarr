@@ -7,6 +7,28 @@ class TraktRepository {
     this.contentType = "application/json";
   }
 
+  async testConnection(apiKey) {
+    const url = "https://api.trakt.tv/shows/trending?page=1&limit=1";
+    let connection = false;
+
+    await axios
+      .get(url, {
+        headers: {
+          "Content-Type": this.contentType,
+          "trakt-api-version": this.apiVersion,
+          "trakt-api-key": apiKey,
+        },
+      })
+      .then(() => {
+        connection = true;
+      })
+      .catch(() => {
+        connection = false;
+      });
+
+    return connection;
+  }
+
   async getUserCustomList(user, list) {
     const url = `https://api.trakt.tv/users/${user}/lists/${list}/items/shows`;
     let shows = [];
@@ -63,8 +85,12 @@ class TraktRepository {
     return shows;
   }
 
-  async getTraktCuratedList(type) {
-    let url = `https://api.trakt.tv/shows/${type}`;
+  async getTraktCuratedList(type, amount) {
+    if (amount === undefined) {
+      amount = 10;
+    }
+
+    let url = `https://api.trakt.tv/shows/${type}?page=1&limit=${amount}`;
     let shows = [];
 
     await axios

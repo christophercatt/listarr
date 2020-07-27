@@ -7,8 +7,8 @@ const path = require("path");
 const SonarrRepository = require("./repositories/SonarrRepository");
 
 const sonarr = new SonarrRepository(
-  "",
-  ""
+  "https://sonarr.chriscatt.com",
+  "dbba8221e16a40b0bf16772d333a18aa"
 );
 
 /*async function testGetRootFolders() {
@@ -28,7 +28,10 @@ testGetRootFolders();*/
 testGetProfiles();*/
 
 /*async function testListLookup() {
-  let test = await sonarr.listLookup([{ title: "Arrow", tvdb: 257655 }]);
+  let test = await sonarr.listLookup([
+    { title: "Arrow", tvdb: 257655 },
+    { title: "Cursed (2020)", tvdb: 3650 },
+  ]);
 
   console.log(test);
 }
@@ -61,7 +64,7 @@ testSonarr();
 const TraktRepository = require("./repositories/TraktRepository");
 
 const trakt = new TraktRepository(
-  ""
+  "d04f391566cf6107225a431341d4272622eedda1e26abf49b5623899d29fb89d"
 );
 
 /*async function testUserWatchList() {
@@ -72,8 +75,18 @@ const trakt = new TraktRepository(
 
 testUserWatchList();*/
 
+/*async function testTraktConnection() {
+  let test = await trakt.testConnection(
+    "d04f391566cf6125a431341d4272622eedda1e26abf49b5623899d29fb89d"
+  );
+
+  console.log(test);
+}
+
+testTraktConnection();*/
+
 /*async function testTraktCurated() {
-  let test = await trakt.getTraktCuratedList("popular");
+  let test = await trakt.getTraktCuratedList("trending", 10);
 
   console.log(test);
 }
