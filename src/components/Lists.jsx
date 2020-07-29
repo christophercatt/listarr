@@ -31,7 +31,7 @@ const List = (props) => {
   };
 
   const l = lists.map((list, index) => (
-    <Card name={list} deleteList={deleteList} />
+    <Card list={list} cardId={index} deleteList={deleteList} />
   ));
 
   let displayLists;

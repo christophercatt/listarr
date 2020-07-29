@@ -8,6 +8,7 @@
 
 # testing
 /coverage
+/server/routes/tests.js
 
 # production
 /build

@@ -2,17 +2,6 @@ const SonarrRepository = require("./SonarrRepository");
 const TraktRepository = require("./TraktRepository");
 
 class RepositoryController {
-  /*constructor(sonarrURL, sonarrApiKey, traktApiKey, interval) {
-    this.sonarr = new SonarrRepository(sonarrURL, sonarrApiKey);
-    this.trakt = new TraktRepository(traktApiKey);
-
-    this.interval = interval;
-
-    /*this.sonarrURL = sonarrURL;
-    this.sonarrApiKey = sonarApiKey;
-    this.traktApiKey = traktApiKey;*/
-  //}
-
   sonarr = new SonarrRepository("", "");
   trakt = new TraktRepository("");
   interval = 60;
@@ -43,6 +32,8 @@ class RepositoryController {
       return "Error Saving Settings";
     }
   }
+
+  async addListItems() {}
 }
 
 module.exports = RepositoryController;

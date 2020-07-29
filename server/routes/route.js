@@ -6,34 +6,7 @@ const RespositoryController = require("../repositories/RepositoryController");
 const repository = new RespositoryController();
 
 var shows = new Set();
-
-/*try {
-  axios
-    .get("https://sonarr.chriscatt.com/api/series", {
-      headers: {
-        "Content-Type": "application/json",
-        "X-Api-Key": "dbba8221e16a40b0bf16772d333a18aa",
-      },
-    })
-    .then(function (data) {
-      data.data.forEach(function (show) {
-        shows.add(show.title);
-      });
-      //console.log(data.data[0]);
-    })
-    .then(function () {
-      console.log(shows.size);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
-} catch (err) {
-  console.log(err);
-}*/
-
-router.get("/api/hello", (req, res) => {
-  res.json("hello react");
-});
+let lists = [];
 
 router.post("/connection/test", async (req, res) => {
   let connectionStatus = await repository.testSettings(
@@ -54,6 +27,34 @@ router.post("/connection/save", async (req, res) => {
   );
 
   res.send(setStatus);
+});
+
+router.post("/lists", async (req, res) => {
+  let data = {
+    type: req.body.type,
+    quality: req.body.quality,
+    folder: req.body.folder,
+  };
+
+  if (req.body.type === "Custom") {
+    //custom list
+    data.username = req.body.username;
+    data.listname = req.body.listname;
+  } else if (req.body.type === "Watchlist") {
+    //user watchlist
+    data.username = req.body.username;
+  } else {
+    //trakt curated
+    data.limit = req.body.limit;
+  }
+
+  lists.push(data);
+
+  res.send(true);
+});
+
+router.get("/lists", (req, res) => {
+  res.send(lists);
 });
 
 router.post("/trakt/list", async (req, res) => {
