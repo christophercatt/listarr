@@ -7,14 +7,6 @@ const Card = (props) => {
     modal.classList.toggle("is-active");
   }
 
-  function modalControl(id) {
-    if (id === null) {
-      props.deleteList(null);
-    } else {
-      props.deleteList(id);
-    }
-  }
-
   return (
     <div className="column is-one-third">
       <a onClick={toggleModal} href="#">

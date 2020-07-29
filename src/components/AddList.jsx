@@ -30,7 +30,6 @@ const AddList = (props) => {
 
     Axios.post("/lists", data)
       .then(() => {
-        console.log(data);
         props.addList(data);
       })
       .catch((err) => {

@@ -3,42 +3,56 @@ import axios from "axios";
 
 const Settings = () => {
   const connection = async (type) => {
-    let url = document.getElementById("url").value;
-    let sonarrApiKey = document.getElementById("sonarrApiKey").value;
-    let traktApiKey = document.getElementById("traktApiKey").value;
     let button;
-    let postUrl;
+    let inputs = document.querySelectorAll("input[type=text]");
+    let err = true;
+    let values = [];
 
-    let data = {
-      url: url,
-      sonarrApiKey: sonarrApiKey,
-      traktApiKey: traktApiKey,
-    };
-
-    //type = true then test, else save
-    if (type) {
-      button = document.getElementById("testConnection");
-      postUrl = "/connection/test";
-    } else {
-      data.interval = document.getElementById("interval").value;
-      button = document.getElementById("saveConnection");
-      postUrl = "/connection/save";
-    }
-
-    button.classList.toggle("is-loading");
-
-    let response = await axios.post(postUrl, data).then((data) => {
-      return data.data;
+    inputs.forEach((input) => {
+      values.push(input.value);
     });
 
-    let err = true;
-
-    if (response === "Success") {
-      err = false;
+    if (type) {
+      button = document.getElementById("testConnection");
+    } else {
+      button = document.getElementById("saveConnection");
     }
 
-    button.innerHTML = response;
-    button.classList.toggle("is-loading");
+    if (values.includes("") || values.includes(" ")) {
+      button.innerHTML = "One Or More Empty Fields!";
+    } else {
+      let url = document.getElementById("url").value;
+      let sonarrApiKey = document.getElementById("sonarrApiKey").value;
+      let traktApiKey = document.getElementById("traktApiKey").value;
+      let postUrl;
+
+      let data = {
+        url: url,
+        sonarrApiKey: sonarrApiKey,
+        traktApiKey: traktApiKey,
+      };
+
+      //type = true then test, else save
+      if (type) {
+        postUrl = "/connection/test";
+      } else {
+        data.interval = document.getElementById("interval").value;
+        postUrl = "/connection/save";
+      }
+
+      button.classList.toggle("is-loading");
+
+      let response = await axios.post(postUrl, data).then((data) => {
+        return data.data;
+      });
+
+      if (response === "Success") {
+        err = false;
+      }
+
+      button.innerHTML = response;
+      button.classList.toggle("is-loading");
+    }
 
     if (err == true) {
       button.classList.remove("is-link");
