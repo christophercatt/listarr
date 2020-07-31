@@ -1,7 +1,17 @@
 import React from "react";
 import axios from "axios";
+import { useEffect } from "react";
 
-const Settings = () => {
+const Settings = (props) => {
+  useEffect(() => {
+    if (props.sonarrUrl !== undefined) {
+      document.getElementById("url").value = props.sonarrUrl;
+      document.getElementById("sonarrApiKey").value = props.sonarrApiKey;
+      document.getElementById("traktApiKey").value = props.traktApiKey;
+      document.getElementById("interval").value = props.interval;
+    }
+  });
+
   const connection = async (type) => {
     let button;
     let inputs = document.querySelectorAll("input[type=text]");
@@ -21,13 +31,13 @@ const Settings = () => {
     if (values.includes("") || values.includes(" ")) {
       button.innerHTML = "One Or More Empty Fields!";
     } else {
-      let url = document.getElementById("url").value;
+      let sonarrUrl = document.getElementById("url").value;
       let sonarrApiKey = document.getElementById("sonarrApiKey").value;
       let traktApiKey = document.getElementById("traktApiKey").value;
       let postUrl;
 
       let data = {
-        url: url,
+        sonarrUrl: sonarrUrl,
         sonarrApiKey: sonarrApiKey,
         traktApiKey: traktApiKey,
       };
@@ -48,6 +58,11 @@ const Settings = () => {
 
       if (response === "Success") {
         err = false;
+      }
+
+      if (response === "Success" && !type) {
+        //setstate
+        props.setSettings(data);
       }
 
       button.innerHTML = response;

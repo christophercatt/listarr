@@ -10,23 +10,43 @@ export default class App extends React.Component {
     super();
     this.state = {
       lists: [],
+      folders: [],
+      profiles: [],
+      settings: [],
     };
   }
 
-  getLists() {
-    axios.get("/lists").then((data) => {
-      this.setState({
-        lists: data.data,
-      });
+  getConfig() {
+    axios.get("/config").then((data) => {
+      let resp = data.data;
+
+      if (resp.hasOwnProperty("settings")) {
+        this.setState({
+          lists: resp.lists,
+          folders: resp.folders,
+          profiles: resp.profiles,
+          settings: resp.settings,
+        });
+      } else {
+        this.setState({
+          lists: resp.lists,
+          folders: resp.folders,
+          profiles: resp.profiles,
+        });
+      }
     });
   }
 
   componentDidMount() {
-    this.getLists();
+    this.getConfig();
   }
 
   setLists = (childData) => {
     this.setState({ lists: childData });
+  };
+
+  setSettings = (childData) => {
+    this.setState({ settings: childData });
   };
 
   render() {
@@ -36,7 +56,11 @@ export default class App extends React.Component {
 
         <Header />
 
-        <Tabs lists={this.state.lists} addList={this.setLists} />
+        <Tabs
+          {...this.state}
+          addList={this.setLists}
+          setSettings={this.setSettings}
+        />
       </div>
     );
   }

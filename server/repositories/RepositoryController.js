@@ -33,6 +33,34 @@ class RepositoryController {
     }
   }
 
+  async getSettings() {}
+
+  async getConfig() {
+    let folders = await this.sonarr.getRootFolder();
+    let profiles = await this.sonarr.getQualityProfiles();
+
+    let url = this.sonarr.baseUrl;
+    url = url.substring(0, url.length - 4);
+
+    let settings = {
+      sonarrUrl: url,
+      sonarrApiKey: this.sonarr.apiKey,
+      traktApiKey: this.trakt.apiKey,
+      interval: this.interval,
+    };
+
+    let data = {
+      folders: folders,
+      profiles: profiles,
+    };
+
+    if (settings.sonarrApiKey !== "" && settings.sonarrApiKey !== " ") {
+      data.settings = settings;
+    }
+
+    return data;
+  }
+
   async addListItems() {}
 }
 

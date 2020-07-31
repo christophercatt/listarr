@@ -10,7 +10,7 @@ let lists = [];
 
 router.post("/connection/test", async (req, res) => {
   let connectionStatus = await repository.testSettings(
-    req.body.url,
+    req.body.sonarrUrl,
     req.body.sonarrApiKey,
     req.body.traktApiKey
   );
@@ -20,7 +20,7 @@ router.post("/connection/test", async (req, res) => {
 
 router.post("/connection/save", async (req, res) => {
   let setStatus = await repository.setSettings(
-    req.body.url,
+    req.body.sonarrUrl,
     req.body.sonarrApiKey,
     req.body.traktApiKey,
     req.body.interval
@@ -57,14 +57,23 @@ router.get("/lists", (req, res) => {
   res.send(lists);
 });
 
-router.post("/trakt/list", async (req, res) => {
+router.get("/config", async (req, res) => {
+  let config = await repository.getConfig();
+  config.lists = lists;
+  res.send(config);
+});
+
+router.get("/lists/profiles", (req, res) => {});
+
+router.get("/lists/folders", (req, res) => {});
+
+/*router.post("/trakt/list", async (req, res) => {
   let user = req.body.user;
   let list = req.body.list;
 
   let url =
     "https://api.trakt.tv/users/" + user + "/lists/" + list + "/items/show";
 
-  console.log(url);
 
   try {
     let response = await axios
@@ -90,6 +99,6 @@ router.post("/trakt/list", async (req, res) => {
   }
 
   //console.log(response);
-});
+});*/
 
 module.exports = router;

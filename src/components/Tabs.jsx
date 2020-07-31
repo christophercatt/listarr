@@ -28,9 +28,19 @@ const Tabs = (props) => {
         </ul>
       </div>
       {listSelected && <Lists lists={props.lists} addList={props.addList} />}
-      {!listSelected && <Settings />}
+      {!listSelected && (
+        <Settings {...props.settings} setSettings={props.setSettings} />
+      )}
     </section>
   );
 };
 
 export default Tabs;
+
+/*
+(props.hasOwnProperty("settings") ? (
+          <Settings {...props.settings} />
+        ) : (
+          <Settings />
+        ))
+        */
