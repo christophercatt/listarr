@@ -26,7 +26,19 @@ router.post("/connection/save", async (req, res) => {
     req.body.interval
   );
 
-  res.send(setStatus);
+  if (setStatus === "Success") {
+    let folders = await repository.sonarr.getRootFolder();
+    let quality = await repository.sonarr.getQualityProfiles();
+    let data = {
+      status: setStatus,
+      folders: folders,
+      profiles: quality,
+    };
+
+    res.send(data);
+  } else {
+    res.send(setStatus);
+  }
 });
 
 router.post("/lists", async (req, res) => {

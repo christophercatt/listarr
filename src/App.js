@@ -46,7 +46,11 @@ export default class App extends React.Component {
   };
 
   setSettings = (childData) => {
-    this.setState({ settings: childData });
+    this.setState({
+      settings: childData.data,
+      folders: childData.folders,
+      profiles: childData.profiles,
+    });
   };
 
   render() {

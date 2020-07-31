@@ -56,16 +56,18 @@ const Settings = (props) => {
         return data.data;
       });
 
-      if (response === "Success") {
+      if (response === "Success" || response.status === "Success") {
         err = false;
+        button.innerHTML = response;
       }
 
-      if (response === "Success" && !type) {
-        //setstate
-        props.setSettings(data);
+      if (!type && response.status === "Success") {
+        response.data = data;
+        props.setSettings(response);
+
+        button.innerHTML = response.status;
       }
 
-      button.innerHTML = response;
       button.classList.toggle("is-loading");
     }
 

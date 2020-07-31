@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Axios from "axios";
+import { useEffect } from "react";
 
 const AddList = (props) => {
   const [listType, setListType] = useState("Custom");
@@ -36,6 +37,38 @@ const AddList = (props) => {
         console.log(err);
       });
   };
+
+  let err = false;
+  let folders;
+  let profiles;
+
+  if (props.folders === "Error Getting Root Folders") {
+    err = true;
+    folders = (
+      <option value="Error">Error. Please Check Connection Settings</option>
+    );
+  } else {
+    folders = props.folders.map((folder, index) => (
+      <option value={folder.path}>{folder.path}</option>
+    ));
+  }
+
+  if (props.profiles === "Error Getting Profiles") {
+    err = true;
+    profiles = (
+      <option value="Error">Error. Please Check Connection Settings</option>
+    );
+  } else {
+    profiles = props.profiles.map((profile, index) => (
+      <option value={profile.profileId}>{profile.name}</option>
+    ));
+  }
+
+  useEffect(() => {
+    if (err === true) {
+      document.getElementById("addBtn").disabled = true;
+    }
+  });
 
   return (
     <div className="columns is-centered">
@@ -110,11 +143,7 @@ const AddList = (props) => {
           </label>
           <p class="control has-icons-left is-expanded">
             <span class="select is-fullwidth">
-              <select id="qualitySelect">
-                <option value="?" selected>
-                  Select a Quality Profile
-                </option>
-              </select>
+              <select id="qualitySelect">{profiles}</select>
             </span>
             <span class="icon is-small is-left">
               <i class="fas fa-broadcast-tower"></i>
@@ -127,11 +156,7 @@ const AddList = (props) => {
           </label>
           <p class="control has-icons-left is-expanded">
             <span class="select is-fullwidth">
-              <select id="folderSelect">
-                <option value="?" selected>
-                  Select a Folder
-                </option>
-              </select>
+              <select id="folderSelect">{folders}</select>
             </span>
             <span class="icon is-small is-left">
               <i class="fas fa-folder"></i>
@@ -153,6 +178,7 @@ const AddList = (props) => {
                 //props.addList(document.getElementById("userName").value);
                 addList()
               }
+              id="addBtn"
               className="button is-link"
             >
               Add

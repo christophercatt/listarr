@@ -43,7 +43,13 @@ const List = (props) => {
 
   return (
     <section className="section">
-      {isAddingList && <AddList addList={setList} />}
+      {isAddingList && (
+        <AddList
+          folders={props.folders}
+          profiles={props.profiles}
+          addList={setList}
+        />
+      )}
       {!isAddingList && (
         <div>
           <div className="container has-text-centered">{displayLists}</div>

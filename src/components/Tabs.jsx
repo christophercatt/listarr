@@ -27,7 +27,14 @@ const Tabs = (props) => {
           </li>
         </ul>
       </div>
-      {listSelected && <Lists lists={props.lists} addList={props.addList} />}
+      {listSelected && (
+        <Lists
+          lists={props.lists}
+          folders={props.folders}
+          profiles={props.profiles}
+          addList={props.addList}
+        />
+      )}
       {!listSelected && (
         <Settings {...props.settings} setSettings={props.setSettings} />
       )}
