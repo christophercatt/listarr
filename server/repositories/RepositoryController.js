@@ -33,8 +33,6 @@ class RepositoryController {
     }
   }
 
-  async getSettings() {}
-
   async getConfig() {
     let folders = await this.sonarr.getRootFolder();
     let profiles = await this.sonarr.getQualityProfiles();
@@ -61,7 +59,51 @@ class RepositoryController {
     return data;
   }
 
-  async addListItems() {}
+  async addShows(lists) {
+    let shows = new Set();
+    let existing = await this.sonarr.getExistingSeries();
+
+    for (const list of lists) {
+      let response;
+
+      if (list.type === "Custom") {
+        //custom list
+        response = await this.trakt.getUserCustomList(
+          list.username,
+          list.listname
+        );
+      } else if (list.type === "Watchlist") {
+        //user watchlist
+        response = await this.trakt.getUserWatchList(list.username);
+      } else {
+        //popular, trending or anticipated
+        response = await this.trakt.getTraktCuratedList(
+          list.type.toLowerCase(),
+          list.limit
+        );
+      }
+
+      if (Array.isArray(response)) {
+        response.forEach((show) => {
+          if (!existing.includes(show.title)) {
+            shows.add({
+              title: show.title,
+              tvdb: show.tvdb,
+              quality: list.quality,
+              folder: list.folder,
+            });
+          }
+        });
+      }
+    }
+
+    let list = Array.from(shows);
+
+    if (list.length !== 0) {
+      shows = await this.sonarr.listLookup(list);
+      this.sonarr.addList(shows);
+    }
+  }
 }
 
 module.exports = RepositoryController;

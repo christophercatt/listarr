@@ -2,7 +2,6 @@ import React from "react";
 
 const Card = (props) => {
   function toggleModal() {
-    //e.preventDefault();
     const modal = document.getElementById(props.cardId);
     modal.classList.toggle("is-active");
   }

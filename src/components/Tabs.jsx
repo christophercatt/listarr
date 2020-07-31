@@ -43,11 +43,3 @@ const Tabs = (props) => {
 };
 
 export default Tabs;
-
-/*
-(props.hasOwnProperty("settings") ? (
-          <Settings {...props.settings} />
-        ) : (
-          <Settings />
-        ))
-        */

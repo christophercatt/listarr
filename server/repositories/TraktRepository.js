@@ -103,7 +103,7 @@ class TraktRepository {
       })
       .then((data) => {
         data.data.forEach((entry) => {
-          if (type == "popular") {
+          if (type === "popular") {
             shows.push({ title: entry.title, tvdb: entry.ids.tvdb });
           } else {
             shows.push({ title: entry.show.title, tvdb: entry.show.ids.tvdb });

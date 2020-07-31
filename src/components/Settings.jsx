@@ -71,14 +71,14 @@ const Settings = (props) => {
       button.classList.toggle("is-loading");
     }
 
-    if (err == true) {
+    if (err === true) {
       button.classList.remove("is-link");
       button.classList.add("is-danger");
     }
 
     setTimeout(() => {
       button.innerHTML = type ? "Test Connection" : "Save";
-      if (err == true) {
+      if (err === true) {
         button.classList.remove("is-danger");
         button.classList.add("is-link");
       }

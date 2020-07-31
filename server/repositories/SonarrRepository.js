@@ -124,11 +124,14 @@ class SonarrRepository {
           data = data.data[0];
 
           shows.push({
-            tvdb: data.tvdbId,
+            tvdbId: data.tvdbId,
             title: data.title,
+            profileId: parseInt(show.quality, 10),
             titleSlug: data.titleSlug,
             images: data.images,
             seasons: data.seasons,
+            rootFolderPath: show.folder,
+            monitored: true,
           });
         })
         .catch((err) => {
@@ -137,7 +140,12 @@ class SonarrRepository {
     }
 
     if (failed.length !== 0) {
-      shows.push({ failedShows: failed });
+      console.log(
+        `FAILED LOOKUPS: ${failed.length}/${list.length} show failed Sonarr lookup:`
+      );
+      failed.forEach((fail) => {
+        console.log(fail);
+      });
     }
 
     return shows;
@@ -148,30 +156,28 @@ class SonarrRepository {
     let failed = [];
 
     for (const show of list) {
-      let data = {
-        tvdbId: show.tvdb,
-        title: show.title,
-        profileId: show.profileId,
-        titleSlug: show.titleSlug,
-        images: show.images,
-        seasons: shows.seasons,
-        rootFolderPath: show.path,
-        monitored: true,
-      };
-
       await axios
-        .post(url, data, {
+        .post(url, show, {
           headers: {
             "Content-Type": this.contentType,
             "X-Api-Key": this.apiKey,
           },
         })
         .then((data) => {
-          console.log(data.data.title);
+          console.log(`ADDED SHOW: ${data.data.title}`);
         })
         .catch((err) => {
           failed.push(show.title);
         });
+    }
+
+    if (failed.length !== 0) {
+      console.log(
+        `SHOWS FAILED TO ADD: ${failed.length}/${list.length} shows failed to be added to Sonarr:`
+      );
+      failed.forEach((fail) => {
+        console.log(fail);
+      });
     }
   }
 }
