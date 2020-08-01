@@ -57,7 +57,12 @@ router.post("/lists", async (req, res) => {
   } else if (req.body.type === "Watchlist") {
     data.username = req.body.username;
   } else {
-    data.limit = req.body.limit;
+    let limit = req.body.limit;
+    if (limit === "" || limit === " ") {
+      limit = "10";
+    }
+
+    data.limit = limit;
   }
 
   lists.push(data);
@@ -70,6 +75,7 @@ router.post("/lists", async (req, res) => {
 router.post("/lists/update", async (req, res) => {
   lists = req.body;
   repository.fs.writeDataToFile("./config/lists.json", lists);
+  res.send(true);
 });
 
 router.get("/lists", (req, res) => {

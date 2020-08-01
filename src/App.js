@@ -45,7 +45,9 @@ export default class App extends React.Component {
   }
 
   setLists = (childData) => {
-    axios.post("/lists/update", childData);
+    axios.post("/lists/update", childData).catch((err) => {
+      console.log(err);
+    });
     this.setState({ lists: childData });
   };
 

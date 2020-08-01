@@ -20,22 +20,52 @@ const AddList = (props) => {
       folder: folder,
     };
 
+    let empty = false;
+
     if (listType === "Custom") {
       data.username = document.getElementById("userName").value;
       data.listname = document.getElementById("listName").value;
+      if (
+        data.username === "" ||
+        data.username === " " ||
+        data.listname === "" ||
+        data.listname === " "
+      ) {
+        empty = true;
+      }
     } else if (listType === "Watchlist") {
       data.username = document.getElementById("userName").value;
+      if (data.username === "" || data.username === " ") {
+        empty = true;
+      }
     } else {
-      data.limit = document.getElementById("limit").value;
+      let limit = document.getElementById("limit").value;
+      if (limit === "" || limit === " ") {
+        limit = "10";
+      }
+      data.limit = limit;
     }
 
-    Axios.post("/lists", data)
-      .then(() => {
-        props.addList(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (empty) {
+      let button = document.getElementById("addBtn");
+      button.innerHTML = "One Or More Empty Fields";
+      button.classList.remove("is-link");
+      button.classList.add("is-danger");
+
+      setTimeout(() => {
+        button.innerHTML = "Add";
+        button.classList.remove("is-danger");
+        button.classList.add("is-link");
+      }, 3000);
+    } else {
+      Axios.post("/lists", data)
+        .then(() => {
+          props.addList(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   let err = false;

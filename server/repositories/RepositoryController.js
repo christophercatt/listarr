@@ -45,13 +45,15 @@ class RepositoryController {
     try {
       this.sonarr = new SonarrRepository(sonarrURL, sonarrApiKey);
       this.trakt = new TraktRepository(traktApiKey);
-      this.interval = interval;
+      if (interval !== "" && interval !== " ") {
+        this.interval = interval;
+      }
 
       const data = {
         sonarrURL: sonarrURL,
         sonarrApiKey: sonarrApiKey,
         traktApiKey: traktApiKey,
-        interval: interval,
+        interval: this.interval,
       };
 
       try {
