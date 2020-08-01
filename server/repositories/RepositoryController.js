@@ -76,7 +76,12 @@ class RepositoryController {
   }
 
   async getConfig() {
-    if (this.folders.length === 0 || this.profiles.length === 0) {
+    if (
+      this.folders.length === 0 ||
+      this.profiles.length === 0 ||
+      this.folders === "Error Getting Root Folders" ||
+      this.profiles === "Error Getting Profiles"
+    ) {
       this.folders = await this.sonarr.getRootFolder();
       this.profiles = await this.sonarr.getQualityProfiles();
     }

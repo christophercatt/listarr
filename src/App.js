@@ -13,6 +13,7 @@ export default class App extends React.Component {
       folders: [],
       profiles: [],
       settings: [],
+      isLoading: true,
     };
   }
 
@@ -26,12 +27,14 @@ export default class App extends React.Component {
           folders: resp.folders,
           profiles: resp.profiles,
           settings: resp.settings,
+          isLoading: false,
         });
       } else {
         this.setState({
           lists: resp.lists,
           folders: resp.folders,
           profiles: resp.profiles,
+          isLoading: false,
         });
       }
     });
@@ -61,11 +64,27 @@ export default class App extends React.Component {
 
         <Header />
 
-        <Tabs
-          {...this.state}
-          addList={this.setLists}
-          setSettings={this.setSettings}
-        />
+        {this.state.isLoading && (
+          <section className="section">
+            <div className="container">
+              <div className="columns is-centered">
+                <div className="column is-one-third has-text-centered">
+                  <span className="icon is-large">
+                    <i className="fas fa-3x fa-spinner fa-pulse"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {!this.state.isLoading && (
+          <Tabs
+            {...this.state}
+            addList={this.setLists}
+            setSettings={this.setSettings}
+          />
+        )}
       </div>
     );
   }

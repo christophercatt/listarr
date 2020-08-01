@@ -68,8 +68,6 @@ router.post("/lists", async (req, res) => {
 });
 
 router.post("/lists/update", async (req, res) => {
-  console.log("request body:");
-  console.log(req.body);
   lists = req.body;
   repository.fs.writeDataToFile("./config/lists.json", lists);
 });
