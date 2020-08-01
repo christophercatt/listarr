@@ -11,12 +11,15 @@ const AddList = (props) => {
 
   const addList = () => {
     let type = listType;
-    let quality = document.getElementById("qualitySelect").value;
+    let sel = document.getElementById("qualitySelect");
+    let quality = sel.value;
+    let qualityName = sel.options[sel.selectedIndex].text;
     let folder = document.getElementById("folderSelect").value;
 
     let data = {
       type: type,
       quality: quality,
+      qualityName: qualityName,
       folder: folder,
     };
 
