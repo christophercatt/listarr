@@ -1,10 +1,30 @@
 const SonarrRepository = require("./SonarrRepository");
 const TraktRepository = require("./TraktRepository");
+const FSRepository = require("./FSRepository");
 
 class RepositoryController {
-  sonarr = new SonarrRepository("", "");
+  /*sonarr = new SonarrRepository("", "");
   trakt = new TraktRepository("");
-  interval = 60;
+  file = new FSRepository();
+  interval = 60;*/
+
+  constructor(path) {
+    this.fs = new FSRepository();
+    this.folders = [];
+    this.profiles = [];
+    if (this.fs.checkFileExists(path)) {
+      const data = this.fs.readDataFromFile(path);
+      this.sonarr = new SonarrRepository(data.sonarrURL, data.sonarrApiKey);
+      this.trakt = new TraktRepository(data.traktApiKey);
+      this.interval = data.interval;
+      console.log("Loaded Data");
+    } else {
+      this.sonarr = new SonarrRepository("", "");
+      this.trakt = new TraktRepository("");
+      this.interval = 60;
+      console.log("Default Data Loaded");
+    }
+  }
 
   async testSettings(sonarrURL, sonarrApiKey, traktApiKey) {
     let sonarrTest = await this.sonarr.testConnection(sonarrURL, sonarrApiKey);
@@ -27,15 +47,39 @@ class RepositoryController {
       this.trakt = new TraktRepository(traktApiKey);
       this.interval = interval;
 
+      const data = {
+        sonarrURL: sonarrURL,
+        sonarrApiKey: sonarrApiKey,
+        traktApiKey: traktApiKey,
+        interval: interval,
+      };
+
+      try {
+        this.fs.writeDataToFile("./config/settings.json", data);
+      } catch (err) {
+        console.log(err);
+      }
+      //fs.writeDataToFile("../config/settings.json", data);
+
       return "Success";
     } catch (err) {
       return "Error Saving Settings";
     }
   }
 
+  saveLists(lists) {
+    try {
+      this.fs.writeDataToFile("./config/lists.json", lists);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   async getConfig() {
-    let folders = await this.sonarr.getRootFolder();
-    let profiles = await this.sonarr.getQualityProfiles();
+    if (this.folders.length === 0 || this.profiles.length === 0) {
+      this.folders = await this.sonarr.getRootFolder();
+      this.profiles = await this.sonarr.getQualityProfiles();
+    }
 
     let url = this.sonarr.baseUrl;
     url = url.substring(0, url.length - 4);
@@ -48,8 +92,8 @@ class RepositoryController {
     };
 
     let data = {
-      folders: folders,
-      profiles: profiles,
+      folders: this.folders,
+      profiles: this.profiles,
     };
 
     if (settings.sonarrApiKey !== "" && settings.sonarrApiKey !== " ") {

@@ -3,13 +3,13 @@ var axios = require("axios");
 var router = express.Router();
 const RespositoryController = require("../repositories/RepositoryController");
 
-const repository = new RespositoryController();
+const repository = new RespositoryController("./config/settings.json");
 
 let lists = [];
 
 setInterval(() => {
   repository.addShows(lists);
-}, repository.interval * 1000);
+}, repository.interval * 60000);
 
 router.post("/connection/test", async (req, res) => {
   let connectionStatus = await repository.testSettings(
@@ -62,7 +62,16 @@ router.post("/lists", async (req, res) => {
 
   lists.push(data);
 
+  repository.fs.writeDataToFile("./config/lists.json", lists);
+
   res.send(true);
+});
+
+router.post("/lists/update", async (req, res) => {
+  console.log("request body:");
+  console.log(req.body);
+  lists = req.body;
+  repository.fs.writeDataToFile("./config/lists.json", lists);
 });
 
 router.get("/lists", (req, res) => {
@@ -71,6 +80,9 @@ router.get("/lists", (req, res) => {
 
 router.get("/config", async (req, res) => {
   let config = await repository.getConfig();
+  if (repository.fs.checkFileExists("./config/lists.json")) {
+    lists = repository.fs.readDataFromFile("./config/lists.json");
+  }
   config.lists = lists;
   res.send(config);
 });
