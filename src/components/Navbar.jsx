@@ -8,7 +8,9 @@ const Navbar = () => {
         <div className="level-right">
           <div className="level-item">
             <button className="button is-info is-medium">
-              <i className="fab fa-2x fa-github"></i>
+              <a href="https://github.com/christophercatt/listarr">
+                <i className="fab fa-2x fa-github"></i>
+              </a>
             </button>
           </div>
         </div>

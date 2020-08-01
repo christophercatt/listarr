@@ -7,9 +7,27 @@ const repository = new RespositoryController("./config/settings.json");
 
 let lists = [];
 
-setInterval(() => {
+let interval = repository.interval;
+let intervalId;
+
+function startInterval(_interval) {
+  console.log("started: " + interval);
+  intervalId = setInterval(() => {
+    repository.addShows(lists);
+  }, _interval * 60000);
+}
+
+function restartInterval(_interval) {
+  interval = _interval;
+  clearInterval(intervalId);
+  startInterval(interval);
+}
+
+startInterval(interval);
+
+/*setInterval(() => {
   repository.addShows(lists);
-}, repository.interval * 60000);
+}, r.interval * 60000);*/
 
 router.post("/connection/test", async (req, res) => {
   let connectionStatus = await repository.testSettings(
@@ -30,6 +48,8 @@ router.post("/connection/save", async (req, res) => {
   );
 
   if (setStatus === "Success") {
+    restartInterval(req.body.interval);
+
     let folders = await repository.sonarr.getRootFolder();
     let quality = await repository.sonarr.getQualityProfiles();
     let data = {
@@ -88,6 +108,7 @@ router.get("/config", async (req, res) => {
     lists = repository.fs.readDataFromFile("./config/lists.json");
   }
   config.lists = lists;
+
   res.send(config);
 });
 

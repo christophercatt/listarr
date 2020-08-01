@@ -170,15 +170,6 @@ class SonarrRepository {
           failed.push(show.title);
         });
     }
-
-    if (failed.length !== 0) {
-      console.log(
-        `SHOWS FAILED TO ADD: ${failed.length}/${list.length} shows failed to be added to Sonarr:`
-      );
-      failed.forEach((fail) => {
-        console.log(fail);
-      });
-    }
   }
 }
 
