@@ -4,7 +4,7 @@ const Header = () => {
   return (
     <section className="section">
       <div className="container pt-3 has-text-centered">
-        <h1 className="title">Sonarr-Trakt</h1>
+        <h1 className="title">Listarr</h1>
         <p className="subtitle">
           Import shows from your favourite{" "}
           <a href="https://trakt.tv" target="_blank">
