@@ -30,7 +30,7 @@ npm start
 
 Go to localhost:5000
 
-Note. Before adding any list to Listarr, please make sure you fill out the required connection details within the settings. Lists will not automatically be added to Sonarr once added to Listarr, they are added every x minutes, set
+Note. Before adding any list to Listarr, please make sure you fill out the required connection details within the settings. Lists will not automatically be added to Sonarr once added to Listarr, they are added every x minutes, set within the 'Settings' tab.
 
 ## Docker
 
