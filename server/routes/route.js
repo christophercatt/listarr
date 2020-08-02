@@ -11,7 +11,6 @@ let interval = repository.interval;
 let intervalId;
 
 function startInterval(_interval) {
-  console.log("started: " + interval);
   intervalId = setInterval(() => {
     repository.addShows(lists);
   }, _interval * 60000);

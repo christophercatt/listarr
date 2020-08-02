@@ -7,10 +7,16 @@ const Navbar = () => {
         <div className="level-left"></div>
         <div className="level-right">
           <div className="level-item">
-            <button className="button is-info is-medium">
-              <a href="https://github.com/christophercatt/listarr">
-                <i className="fab fa-2x fa-github"></i>
-              </a>
+            <button
+              className="button is-info is-medium"
+              onClick={() => {
+                window.open(
+                  "https://github.com/christophercatt/listarr",
+                  "_blank"
+                );
+              }}
+            >
+              <i className="fab fa-2x fa-github"></i>
             </button>
           </div>
         </div>

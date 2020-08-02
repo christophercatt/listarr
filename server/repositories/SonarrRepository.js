@@ -170,6 +170,12 @@ class SonarrRepository {
           failed.push(show.title);
         });
     }
+
+    if (failed.length !== 0) {
+      console.log(
+        "NOTICE: Some shows failed to be added. This is due to the show already existing within Sonarr, but with a different nameing convention."
+      );
+    }
   }
 }
 
