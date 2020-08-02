@@ -7,20 +7,20 @@ Listarr is a convenience application, allowing for [Trakt](trakt.tv) lists to be
 
 To install, run:
 
-```
-git clone ...
+```bash
+#Clone repository
+git clone https://github.com/christophercatt/listarr.git
+
+#Enter project directory
 cd listarr
-```
 
-Install dependencies:
-
-```
-npm install && cd server && npm install && cd ../
+#Install dependencies
+npm run setup
 ```
 
 ## Usage
 
-Before using, make sure that you create and obtain a Trakt [Client ID](https://trakt.tv/oauth/applications/new)
+Before using, make sure that you create and obtain a Trakt Client ID [_here_](https://trakt.tv/oauth/applications/new).
 
 Start Listarr:
 
@@ -28,7 +28,23 @@ Start Listarr:
 npm start
 ```
 
-Before adding any list to Listarr, please make sure you fill out the required connection details within the settings.
+Go to localhost:5000
+
+Note. Before adding any list to Listarr, please make sure you fill out the required connection details within the settings. Lists will not automatically be added to Sonarr once added to Listarr, they are added every x minutes, set
+
+## Docker
+
+To build from source
+
+```bash
+#Bulid the image
+docker build -t ccatt601/listarr .
+
+#Run the image
+docker run -d -p 'host port':5000 -v /path/to/store/data:/server/config/ ccatt601/listarr
+```
+
+The Docker Image is also available on [Docker Hub]()
 
 ## Roadmap
 
