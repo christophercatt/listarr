@@ -135,6 +135,7 @@ class RepositoryController {
       }
 
       if (Array.isArray(response)) {
+        // eslint-disable-next-line no-loop-func
         response.forEach((show) => {
           if (!existing.includes(show.title)) {
             shows.add({

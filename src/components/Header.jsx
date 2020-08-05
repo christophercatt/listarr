@@ -7,7 +7,7 @@ const Header = () => {
         <h1 className="title">Listarr</h1>
         <p className="subtitle">
           Import shows from your favourite{" "}
-          <a href="https://trakt.tv" target="_blank">
+          <a href="https://trakt.tv" target="_blank" rel="noopener noreferrer">
             Trakt.tv
           </a>{" "}
           lists directly into <strong>Sonarr!</strong>
