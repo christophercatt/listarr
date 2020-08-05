@@ -43,6 +43,7 @@ class RepositoryController {
 
   async setSettings(sonarrURL, sonarrApiKey, traktApiKey, interval) {
     try {
+      console.time("Set Settings - RepositoryController");
       this.sonarr = new SonarrRepository(sonarrURL, sonarrApiKey);
       this.trakt = new TraktRepository(traktApiKey);
       if (interval !== "" && interval !== " ") {
@@ -62,9 +63,10 @@ class RepositoryController {
         console.log(err);
       }
       //fs.writeDataToFile("../config/settings.json", data);
-
+      console.timeEnd("Set Settings - RepositoryController");
       return "Success";
     } catch (err) {
+      console.log("Set Settings Error - RepositoryController");
       return "Error Saving Settings";
     }
   }
