@@ -10,6 +10,8 @@ const Card = (props) => {
     <div className="column is-one-third">
       <div className="box has-text-left">
         {(props.list.type === "Anticipated" ||
+          props.list.type === "Watched" ||
+          props.list.type === "Recommended" ||
           props.list.type === "Trending" ||
           props.list.type === "Popular") && (
           <div>
@@ -26,7 +28,10 @@ const Card = (props) => {
               </div>
             </div>
 
-            <h5 className="title">{props.list.type}</h5>
+            <h5 className="title">
+              {props.list.type === "Watched" ? "Most " : ""}
+              {props.list.type}
+            </h5>
           </div>
         )}
         {props.list.type === "Custom" && (

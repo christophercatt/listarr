@@ -110,6 +110,29 @@ class TraktRepository {
 
     return shows;
   }
+
+  async getTraktTimedList(type, amount, period) {
+    if (amount === undefined) {
+      amount = 10;
+    }
+
+    let url = `https://api.trakt.tv/shows/${type}/${period}?page=1&limit=${amount}`;
+    const headers = this.headers;
+    let shows = [];
+
+    await axios
+      .get(url, { headers })
+      .then((data) => {
+        data.data.forEach((entry) => {
+          shows.push({ title: entry.show.title, tvdb: entry.show.ids.tvdb });
+        });
+      })
+      .catch((err) => {
+        shows = "Unknown Error";
+      });
+
+    return shows;
+  }
 }
 
 module.exports = TraktRepository;

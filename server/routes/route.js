@@ -23,10 +23,6 @@ function restartInterval(_interval) {
 
 startInterval(interval);
 
-/*setInterval(() => {
-  repository.addShows(lists);
-}, r.interval * 60000);*/
-
 router.post("/connection/test", async (req, res) => {
   let connectionStatus = await repository.testSettings(
     req.body.sonarrUrl,
@@ -75,6 +71,9 @@ router.post("/lists", async (req, res) => {
   } else if (req.body.type === "Watchlist") {
     data.username = req.body.username;
   } else {
+    if (req.body.type === "Recommended" || req.body.type === "Watched") {
+      data.timePeriod = req.body.timePeriod;
+    }
     let limit = req.body.limit;
     if (limit === "" || limit === " ") {
       limit = "10";

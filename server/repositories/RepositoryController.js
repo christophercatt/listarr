@@ -126,6 +126,12 @@ class RepositoryController {
       } else if (list.type === "Watchlist") {
         //user watchlist
         response = await this.trakt.getUserWatchList(list.username);
+      } else if (list.type === "Recommended" || list.type === "Watched") {
+        response = await this.trakt.getTraktTimedList(
+          list.type.toLowerCase(),
+          list.limit,
+          list.timePeriod
+        );
       } else {
         //popular, trending or anticipated
         response = await this.trakt.getTraktCuratedList(
