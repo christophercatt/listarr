@@ -56,7 +56,7 @@ The following are planned features/updates that _should_ be coming your way some
 - [ ] Radarr Integration
 - [ ] IMDB Integration
 
-For a full list of requested features and their status, you can track on the _now_ public Trello board found [_here_](https://trello.com/b/sLWoaEgx).
+For a full list of requested features and their status, you can track on the _now_ public Trello board found [_here_](https://trello.com/b/sLWoaEgx). To request a feature, please open an Issue and I will respond/close when the request has been added to Trello.
 
 ## Contributing
 
