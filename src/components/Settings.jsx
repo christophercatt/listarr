@@ -51,12 +51,9 @@ const Settings = (props) => {
       }
 
       button.classList.toggle("is-loading");
-      console.log("Started spiner");
-      console.time("Send to backend");
       let response = await axios.post(postUrl, data).then((data) => {
         return data.data;
       });
-      console.timeEnd("Send to backend");
 
       if (response === "Success" || response.status === "Success") {
         err = false;
@@ -65,9 +62,7 @@ const Settings = (props) => {
 
       if (!type && response.status === "Success") {
         response.data = data;
-        console.log("setting props");
         props.setSettings(response);
-        console.log("finished setting props");
 
         button.innerHTML = response.status;
       }
@@ -80,7 +75,6 @@ const Settings = (props) => {
       button.classList.add("is-danger");
     }
 
-    console.log("starting timeout");
     setTimeout(() => {
       button.innerHTML = type ? "Test Connection" : "Save";
       if (err === true) {
