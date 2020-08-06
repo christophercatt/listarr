@@ -46,7 +46,7 @@ docker run -d -p 'host port':5000 -v /path/to/store/data:/server/config/ ccatt60
 
 The Docker Image is also available on [Docker Hub](https://hub.docker.com/repository/docker/ccatt601/listarr)
 
-## Roadmap
+## Feature Requests & Roadmap
 
 The following are planned features/updates that _should_ be coming your way some time soon. Keep an eye out for updates:
 
@@ -55,6 +55,8 @@ The following are planned features/updates that _should_ be coming your way some
 - [ ] History Feed
 - [ ] Radarr Integration
 - [ ] IMDB Integration
+
+For a full list of requested features and their status, you can track on the _now_ public Trello board found [_here_](https://trello.com/b/sLWoaEgx).
 
 ## Contributing
 

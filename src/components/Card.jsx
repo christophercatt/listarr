@@ -124,44 +124,4 @@ const Card = (props) => {
   );
 };
 
-{
-  /*<div id={props.cardId} class="modal">
-<div onClick={toggleModal} class="modal-background"></div>
-<div class="modal-content">
-  <div className="box">
-    <h5 className="subtitle"></h5>
-    {(props.list.type === "Custom" ||
-      props.list.type === "Watchlist") && (
-      <h5 className="subtitle">{props.list.username}</h5>
-    )}
-    <div className="buttons is-right">
-      <button
-        onClick={() => {
-          props.deleteList(props.list);
-          toggleModal();
-        }}
-        className="button is-link is-light"
-      >
-        Delete
-      </button>
-      <button
-        onClick={() => {
-          props.deleteList(null);
-          toggleModal();
-        }}
-        className="button is-link"
-      >
-        Cancel
-      </button>
-    </div>
-  </div>
-</div>
-<button
-  onClick={toggleModal}
-  class="modal-close is-large"
-  aria-label="close"
-></button>
-      </div>*/
-}
-
 export default Card;
