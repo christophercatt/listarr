@@ -18,12 +18,11 @@ const Card = (props) => {
                 <p>Trakt.tv Curated</p>
               </div>
               <div className="level-right">
-                <a
+                <button
                   aria-label="delete"
                   className="delete"
                   onClick={toggleModal}
-                  href="#"
-                ></a>
+                ></button>
               </div>
             </div>
 
@@ -37,12 +36,11 @@ const Card = (props) => {
                 <p>{props.list.username}</p>
               </div>
               <div className="level-right">
-                <a
+                <button
                   aria-label="delete"
                   className="delete"
                   onClick={toggleModal}
-                  href="#"
-                ></a>
+                ></button>
               </div>
             </div>
 
@@ -56,12 +54,11 @@ const Card = (props) => {
                 <p>{props.list.username}</p>
               </div>
               <div className="level-right">
-                <a
+                <button
                   aria-label="delete"
                   className="delete"
                   onClick={toggleModal}
-                  href="#"
-                ></a>
+                ></button>
               </div>
             </div>
 
@@ -79,7 +76,6 @@ const Card = (props) => {
           <span className="tag is-info">{props.list.qualityName}</span>
         </div>
       </div>
-      {/* MODAL START */}
 
       <div id={props.cardId} className="modal">
         <div onClick={toggleModal} className="modal-background"></div>

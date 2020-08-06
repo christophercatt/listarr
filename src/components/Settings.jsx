@@ -115,7 +115,7 @@ const Settings = (props) => {
             </div>
           </div>
           <div className="field">
-            <label className="label">Trakt API Key</label>
+            <label className="label">Trakt Client ID</label>
             <div className="control">
               <input
                 id="traktApiKey"

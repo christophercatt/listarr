@@ -4,18 +4,22 @@ class SonarrRepository {
   constructor(url, apiKey) {
     this.baseUrl = `${url}/api`;
     this.apiKey = apiKey;
-    this.contentType = "application/json";
+    this.headers = {
+      "Content-Type": "application/json",
+      "X-Api-Key": apiKey,
+    };
   }
 
   async testConnection(url, apiKey) {
     url = `${url}/api/system/status`;
+    const headers = {
+      "Content-Type": "application/json",
+      "X-Api-Key": apiKey,
+    };
 
     let response = await axios
       .get(url, {
-        headers: {
-          "Content-Type": this.contentType,
-          "X-Api-Key": apiKey,
-        },
+        headers,
       })
       .then(() => {
         return "Success";
@@ -35,15 +39,11 @@ class SonarrRepository {
 
   async getQualityProfiles() {
     const url = `${this.baseUrl}/profile`;
+    const headers = this.headers;
     let profiles = [];
 
     await axios
-      .get(url, {
-        headers: {
-          "Content-Type": this.contentType,
-          "X-Api-Key": this.apiKey,
-        },
-      })
+      .get(url, { headers })
       .then((data) => {
         data = data.data;
 
@@ -60,15 +60,11 @@ class SonarrRepository {
 
   async getRootFolder() {
     const url = `${this.baseUrl}/rootFolder`;
+    const headers = this.headers;
     let rootFolders = [];
 
     await axios
-      .get(url, {
-        headers: {
-          "Content-Type": this.contentType,
-          "X-Api-Key": this.apiKey,
-        },
-      })
+      .get(url, { headers })
       .then((data) => {
         data = data.data;
 
@@ -85,18 +81,14 @@ class SonarrRepository {
 
   async getExistingSeries() {
     const url = `${this.baseUrl}/series`;
+    const headers = this.headers;
     let shows = [];
 
     await axios
-      .get(url, {
-        headers: {
-          "Content-Type": this.contentType,
-          "X-Api-Key": this.apiKey,
-        },
-      })
+      .get(url, { headers })
       .then((data) => {
         data.data.forEach((show) => {
-          shows.push(show.title);
+          shows.push(show.tvdbId);
         });
       })
       .catch((err) => {
@@ -107,6 +99,7 @@ class SonarrRepository {
   }
 
   async listLookup(list) {
+    const headers = this.headers;
     let shows = [];
     let failed = [];
 
@@ -114,12 +107,7 @@ class SonarrRepository {
       let url = `${this.baseUrl}/series/lookup?term=tvdb:${show.tvdb}`;
 
       await axios
-        .get(url, {
-          headers: {
-            "Content-Type": this.contentType,
-            "X-Api-Key": this.apiKey,
-          },
-        })
+        .get(url, { headers })
         .then((data) => {
           data = data.data[0];
 
@@ -153,16 +141,12 @@ class SonarrRepository {
 
   async addList(list) {
     const url = `${this.baseUrl}/series`;
+    const headers = this.headers;
     let failed = [];
 
     for (const show of list) {
       await axios
-        .post(url, show, {
-          headers: {
-            "Content-Type": this.contentType,
-            "X-Api-Key": this.apiKey,
-          },
-        })
+        .post(url, show, { headers })
         .then((data) => {
           console.log(`ADDED SHOW: ${data.data.title}`);
         })
