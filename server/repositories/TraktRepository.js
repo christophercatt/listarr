@@ -2,9 +2,11 @@ const axios = require("axios");
 
 class TraktRepository {
   constructor(apiKey) {
-    this.apiKey = apiKey;
-    this.apiVersion = "2";
-    this.contentType = "application/json";
+    this.headers = {
+      "Content-Type": "application/json",
+      "trakt-api-version": "2",
+      "trakt-api-key": apiKey,
+    };
   }
 
   async testConnection(apiKey) {
@@ -14,8 +16,8 @@ class TraktRepository {
     await axios
       .get(url, {
         headers: {
-          "Content-Type": this.contentType,
-          "trakt-api-version": this.apiVersion,
+          "Content-Type": "application/json",
+          "trakt-api-version": "2",
           "trakt-api-key": apiKey,
         },
       })
@@ -31,15 +33,12 @@ class TraktRepository {
 
   async getUserCustomList(user, list) {
     const url = `https://api.trakt.tv/users/${user}/lists/${list}/items/shows`;
+    const headers = this.headers;
     let shows = [];
 
     await axios
       .get(url, {
-        headers: {
-          "Content-Type": this.contentType,
-          "trakt-api-version": this.apiVersion,
-          "trakt-api-key": this.apiKey,
-        },
+        headers,
       })
       .then((data) => {
         data.data.forEach((entry) => {
@@ -59,15 +58,12 @@ class TraktRepository {
 
   async getUserWatchList(user) {
     const url = `https://api.trakt.tv/users/${user}/watchlist/shows`;
+    const headers = this.headers;
     let shows = [];
 
     await axios
       .get(url, {
-        headers: {
-          "Content-Type": this.contentType,
-          "trakt-api-version": this.apiVersion,
-          "trakt-api-key": this.apiKey,
-        },
+        headers,
       })
       .then((data) => {
         data.data.forEach((entry) => {
@@ -91,15 +87,12 @@ class TraktRepository {
     }
 
     let url = `https://api.trakt.tv/shows/${type}?page=1&limit=${amount}`;
+    const headers = this.headers;
     let shows = [];
 
     await axios
       .get(url, {
-        headers: {
-          "Content-Type": this.contentType,
-          "trakt-api-version": this.apiVersion,
-          "trakt-api-key": this.apiKey,
-        },
+        headers,
       })
       .then((data) => {
         data.data.forEach((entry) => {
