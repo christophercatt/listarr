@@ -3,6 +3,7 @@ const axios = require("axios");
 class SonarrRepository {
   constructor(url, apiKey) {
     this.baseUrl = `${url}/api`;
+    this.apiKey = apiKey;
     this.headers = {
       "Content-Type": "application/json",
       "X-Api-Key": apiKey,

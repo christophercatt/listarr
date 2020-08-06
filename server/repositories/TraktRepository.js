@@ -2,6 +2,7 @@ const axios = require("axios");
 
 class TraktRepository {
   constructor(apiKey) {
+    this.apiKey = apiKey;
     this.headers = {
       "Content-Type": "application/json",
       "trakt-api-version": "2",

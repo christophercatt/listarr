@@ -10,7 +10,7 @@ const Tabs = (props) => {
       <div class="tabs is-medium is-centered">
         <ul>
           <li className={`${listSelected ? "is-active" : ""}`}>
-            <a href="#" onClick={() => setListSelected(true)}>
+            <a href="#0" onClick={() => setListSelected(true)}>
               <span class="icon is-small">
                 <i class="fas fa-th-list"></i>
               </span>
@@ -18,7 +18,7 @@ const Tabs = (props) => {
             </a>
           </li>
           <li className={`${listSelected ? "" : "is-active"}`}>
-            <a href="#" onClick={() => setListSelected(false)}>
+            <a href="#0" onClick={() => setListSelected(false)}>
               <span class="icon is-small">
                 <i class="fas fa-cogs"></i>
               </span>
