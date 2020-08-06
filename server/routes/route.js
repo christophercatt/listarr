@@ -38,18 +38,35 @@ router.post("/connection/test", async (req, res) => {
 });
 
 router.post("/connection/save", async (req, res) => {
+  const URLCheck = req.body.sonarrUrl;
+  let URLIncludes = false;
+  if (
+    URLCheck.includes("http") ||
+    URLCheck.includes("https") ||
+    URLCheck.includes("HTTP") ||
+    URLCheck.includes("HTTPS")
+  ) {
+    URLIncludes = true;
+  }
+  console.log("URL contains http:// : " + URLIncludes);
+  console.time("Set Settings - route.js");
   let setStatus = await repository.setSettings(
     req.body.sonarrUrl,
     req.body.sonarrApiKey,
     req.body.traktApiKey,
     req.body.interval
   );
+  console.timeEnd("Set Settings - route.js");
 
   if (setStatus === "Success") {
     restartInterval(req.body.interval);
 
+    console.time("Get Sonarr Folders - route.js");
     let folders = await repository.sonarr.getRootFolder();
+    console.timeEnd("Get Sonarr Folders - route.js");
+    console.time("Get Sonarr Qualities - route.js");
     let quality = await repository.sonarr.getQualityProfiles();
+    console.timeEnd("Get Sonarr Qualities - route.js");
     let data = {
       status: setStatus,
       folders: folders,
@@ -58,6 +75,7 @@ router.post("/connection/save", async (req, res) => {
 
     res.send(data);
   } else {
+    console.log("setStatus failed");
     res.send(setStatus);
   }
 });
