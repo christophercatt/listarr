@@ -96,7 +96,7 @@ class SonarrRepository {
       })
       .then((data) => {
         data.data.forEach((show) => {
-          shows.push(show.title);
+          shows.push(show.tvdbId);
         });
       })
       .catch((err) => {
