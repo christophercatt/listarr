@@ -6,14 +6,25 @@ const Card = (props) => {
     modal.classList.toggle("is-active");
   }
 
+  const type = props.list.type;
+  let label;
+
+  if (type === "UserWatched") {
+    label = "User Watched";
+  } else if (type === "Collection") {
+    label = "User Collected";
+  } else {
+    label = type;
+  }
+
   return (
     <div className="column is-one-third">
       <div className="box has-text-left">
-        {(props.list.type === "Anticipated" ||
-          props.list.type === "Watched" ||
-          props.list.type === "Recommended" ||
-          props.list.type === "Trending" ||
-          props.list.type === "Popular") && (
+        {(type === "Anticipated" ||
+          type === "Watched" ||
+          type === "Recommended" ||
+          type === "Trending" ||
+          type === "Popular") && (
           <div>
             <div className="level mb-3">
               <div className="level-left">
@@ -29,12 +40,12 @@ const Card = (props) => {
             </div>
 
             <h5 className="title">
-              {props.list.type === "Watched" ? "Most " : ""}
-              {props.list.type}
+              {type === "Watched" ? "Most " : ""}
+              {type}
             </h5>
           </div>
         )}
-        {props.list.type === "Custom" && (
+        {type === "Custom" && (
           <div>
             <div className="level mb-3">
               <div className="level-left">
@@ -52,7 +63,9 @@ const Card = (props) => {
             <h5 className="title">{props.list.listname}</h5>
           </div>
         )}
-        {props.list.type === "Watchlist" && (
+        {(type === "Watchlist" ||
+          type === "Collection" ||
+          type === "UserWatched") && (
           <div>
             <div className="level mb-3">
               <div className="level-left">
@@ -67,7 +80,7 @@ const Card = (props) => {
               </div>
             </div>
 
-            <h5 className="title">Watchlist</h5>
+            <h5 className="title">{label}</h5>
           </div>
         )}
 

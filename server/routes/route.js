@@ -6,11 +6,16 @@ const repository = new RespositoryController("./config/settings.json");
 
 let lists = [];
 
+if (repository.fs.checkFileExists("./config/lists.json")) {
+  lists = repository.fs.readDataFromFile("./config/lists.json");
+}
+
 let interval = repository.interval;
 let intervalId;
 
 function startInterval(_interval) {
   intervalId = setInterval(() => {
+    console.log("--- Adding Lists ---");
     repository.addShows(lists);
   }, _interval * 60000);
 }
@@ -68,7 +73,11 @@ router.post("/lists", async (req, res) => {
   if (req.body.type === "Custom") {
     data.username = req.body.username;
     data.listname = req.body.listname;
-  } else if (req.body.type === "Watchlist") {
+  } else if (
+    req.body.type === "Watchlist" ||
+    req.body.type === "Collected" ||
+    req.body.type === "UserWatched"
+  ) {
     data.username = req.body.username;
   } else {
     if (req.body.type === "Recommended" || req.body.type === "Watched") {

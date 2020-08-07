@@ -57,8 +57,8 @@ class TraktRepository {
     return shows;
   }
 
-  async getUserWatchList(user) {
-    const url = `https://api.trakt.tv/users/${user}/watchlist/shows`;
+  async getUserList(user, type) {
+    const url = `https://api.trakt.tv/users/${user}/${type}/shows`;
     const headers = this.headers;
     let shows = [];
 
@@ -74,6 +74,8 @@ class TraktRepository {
       .catch((err) => {
         if (err.response.status === 404) {
           shows = "Invalid Username or No Watchlist";
+        } else if (err.response.status === 405) {
+          shows = "List Does Not Exist";
         } else {
           shows = "Unknown Error";
         }
