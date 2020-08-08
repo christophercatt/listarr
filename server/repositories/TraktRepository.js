@@ -57,8 +57,8 @@ class TraktRepository {
     return shows;
   }
 
-  async getUserWatchList(user) {
-    const url = `https://api.trakt.tv/users/${user}/watchlist/shows`;
+  async getUserList(user, type) {
+    const url = `https://api.trakt.tv/users/${user}/${type}/shows`;
     const headers = this.headers;
     let shows = [];
 
@@ -74,6 +74,8 @@ class TraktRepository {
       .catch((err) => {
         if (err.response.status === 404) {
           shows = "Invalid Username or No Watchlist";
+        } else if (err.response.status === 405) {
+          shows = "List Does Not Exist";
         } else {
           shows = "Unknown Error";
         }
@@ -102,6 +104,29 @@ class TraktRepository {
           } else {
             shows.push({ title: entry.show.title, tvdb: entry.show.ids.tvdb });
           }
+        });
+      })
+      .catch((err) => {
+        shows = "Unknown Error";
+      });
+
+    return shows;
+  }
+
+  async getTraktTimedList(type, amount, period) {
+    if (amount === undefined) {
+      amount = 10;
+    }
+
+    let url = `https://api.trakt.tv/shows/${type}/${period}?page=1&limit=${amount}`;
+    const headers = this.headers;
+    let shows = [];
+
+    await axios
+      .get(url, { headers })
+      .then((data) => {
+        data.data.forEach((entry) => {
+          shows.push({ title: entry.show.title, tvdb: entry.show.ids.tvdb });
         });
       })
       .catch((err) => {
