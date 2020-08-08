@@ -10,11 +10,11 @@ const AddList = (props) => {
   };
 
   const addList = () => {
-    let type = listType;
-    let sel = document.getElementById("qualitySelect");
-    let quality = sel.value;
-    let qualityName = sel.options[sel.selectedIndex].text;
-    let folder = document.getElementById("folderSelect").value;
+    const type = listType;
+    const sel = document.getElementById("qualitySelect");
+    const quality = sel.value;
+    const qualityName = sel.options[sel.selectedIndex].text;
+    const folder = document.getElementById("folderSelect").value;
 
     let data = {
       type: type,
@@ -36,12 +36,21 @@ const AddList = (props) => {
       ) {
         empty = true;
       }
-    } else if (listType === "Watchlist") {
+    } else if (
+      listType === "Watchlist" ||
+      listType === "Collection" ||
+      listType === "UserWatched"
+    ) {
       data.username = document.getElementById("userName").value;
       if (data.username === "" || data.username === " ") {
         empty = true;
       }
     } else {
+      if (listType === "Recommended" || listType === "Watched") {
+        const timePeriod = document.getElementById("timePeriod").value;
+        data.timePeriod = timePeriod;
+      }
+
       let limit = document.getElementById("limit").value;
       if (limit === "" || limit === " ") {
         limit = "10";
@@ -116,9 +125,13 @@ const AddList = (props) => {
                 <option value="Trending">Trending</option>
                 <option value="Popular">Popular</option>
                 <option value="Anticipated">Anticipated</option>
-                <option value="Watchlist">Watchlist</option>
+                <option value="Watched">Most Watched</option>
+                <option value="Recommended">Recommended</option>
+                <option value="Watchlist">User Watchlist</option>
+                <option value="Collection">User Collected</option>
+                <option value="UserWatched">User Watched</option>
                 <option selected value="Custom">
-                  Custom
+                  User Custom List
                 </option>
               </select>
             </span>
@@ -127,24 +140,50 @@ const AddList = (props) => {
             </span>
           </p>
         </div>
-        {listType !== "Custom" && listType !== "Watchlist" && (
-          <div className="field">
-            <label className="label">Limit</label>
-            <div className="control">
-              <input
-                id="limit"
-                type="number"
-                step="1"
-                placeholder="10"
-                className="input"
-              />
-            </div>
-            <p className="help">
-              Max amount of TV shows to grab (Default = 10)
+        {(listType === "Watched" || listType === "Recommended") && (
+          <div class="field">
+            <label className="label">Time Period</label>
+            <p class="control has-icons-left is-expanded">
+              <span class="select is-fullwidth">
+                <select id="timePeriod">
+                  <option selected value="weekly">
+                    Weekly
+                  </option>
+                  <option value="monthly">Monthly</option>
+                  <option value="yearly">Yearly</option>
+                  <option value="all">All Time</option>
+                </select>
+              </span>
+              <span class="icon is-small is-left">
+                <i class="fas fa-calendar-alt"></i>
+              </span>
             </p>
           </div>
         )}
-        {(listType === "Custom" || listType === "Watchlist") && (
+        {listType !== "Custom" &&
+          listType !== "Watchlist" &&
+          listType !== "Collection" &&
+          listType !== "UserWatched" && (
+            <div className="field">
+              <label className="label">Limit</label>
+              <div className="control">
+                <input
+                  id="limit"
+                  type="number"
+                  step="1"
+                  placeholder="10"
+                  className="input"
+                />
+              </div>
+              <p className="help">
+                Max amount of TV shows to grab (Default = 10)
+              </p>
+            </div>
+          )}
+        {(listType === "Custom" ||
+          listType === "Watchlist" ||
+          listType === "Collection" ||
+          listType === "UserWatched") && (
           <div className="field">
             <label className="label">Trakt.tv Username</label>
             <div className="control">

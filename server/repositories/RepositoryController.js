@@ -110,6 +110,7 @@ class RepositoryController {
 
   async addShows(lists) {
     let shows = new Set();
+    let count = 0;
     let existing = await this.sonarr.getExistingSeries();
 
     for (const list of lists) {
@@ -121,9 +122,26 @@ class RepositoryController {
           list.username,
           list.listname
         );
-      } else if (list.type === "Watchlist") {
-        //user watchlist
-        response = await this.trakt.getUserWatchList(list.username);
+      } else if (
+        list.type === "Watchlist" ||
+        list.type === "Collection" ||
+        list.type === "UserWatched"
+      ) {
+        //user trakt list
+        let type = list.type;
+        if (list.type === "UserWatched") {
+          type = "Watched";
+        }
+        response = await this.trakt.getUserList(
+          list.username,
+          type.toLowerCase()
+        );
+      } else if (list.type === "Recommended" || list.type === "Watched") {
+        response = await this.trakt.getTraktTimedList(
+          list.type.toLowerCase(),
+          list.limit,
+          list.timePeriod
+        );
       } else {
         //popular, trending or anticipated
         response = await this.trakt.getTraktCuratedList(
@@ -142,17 +160,25 @@ class RepositoryController {
               quality: list.quality,
               folder: list.folder,
             });
+          } else {
+            count++;
           }
         });
       }
+    }
+    if (count > 0) {
+      console.log(`${count} Shows Already Exist`);
     }
 
     let list = Array.from(shows);
 
     if (list.length !== 0) {
+      console.log(`Attempting To Add ${list.length} Shows`);
       shows = await this.sonarr.listLookup(list);
       this.sonarr.addList(shows);
     }
+
+    console.log("--- Sent Lists To Sonarr ---");
   }
 }
 
