@@ -21,4 +21,6 @@ EXPOSE 5000
 # Change User to created User
 USER listarr
 
+VOLUME /app/server/config
+
 CMD ["npm", "start"]
