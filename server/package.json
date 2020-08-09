@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "setup": "mkdir -p config && echo config/.version"
+    "start": "node index.js"
   },
   "keywords": [],
   "author": "",

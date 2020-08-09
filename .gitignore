@@ -12,7 +12,7 @@
 
 # production
 /build
-/server/config/*
+/server/config/*.json
 
 # misc
 .DS_Store
