@@ -1,26 +1,24 @@
 FROM ubuntu:latest
 
+# Add User/Group and make User owner of the root directory
+RUN groupadd -r listarr \
+    && useradd -r -s /bin/false -g listarr listarr 
+
 # Install Node.js and dependencies
 RUN apt-get update -yq \
-    && apt-get install curl gnupg -yq \
+    && apt-get install curl gnupg gosu -yq \
     && curl -sL https://deb.nodesource.com/setup_14.x | bash \
-    && apt-get install nodejs -yq 
+    && apt-get install nodejs -yq \
+    && mkdir -p /app/server/config \
+    && chown -R listarr:listarr /app
 
 # Copy and Setup App
 WORKDIR /app
+VOLUME /app/server/config
 COPY . /app
 RUN npm run setup
 
-# Add User/Group and make User owner of the root directory
-RUN groupadd -r listarr \
-    && useradd -r -s /bin/false -g listarr listarr \
-    && chown -R listarr:listarr /app 
+ENTRYPOINT ["docker-entrypoint.sh"]
 
 EXPOSE 5000
-
-# Change User to created User
-USER listarr
-
-VOLUME /app/server/config
-
 CMD ["npm", "start"]
