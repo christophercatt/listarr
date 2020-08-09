@@ -12,10 +12,10 @@ COPY . /app
 RUN npm run setup
 
 # Add User/Group and make User owner of the root directory
-RUN groupadd -r listarr \
+RUN echo "ver1.1.0" > /app/server/config/.version \
+    && groupadd -r listarr \
     && useradd -r -s /bin/false -g listarr listarr \
-    && chown -R listarr:listarr /app \
-    && chown -R listarr:listarr /app/server/config
+    && chown -R listarr:listarr /app 
 
 EXPOSE 5000
 
