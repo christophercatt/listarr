@@ -15,10 +15,12 @@ RUN npm run setup
 RUN groupadd -r listarr \
     && useradd -r -s /bin/false -g listarr listarr \
     && chown -R listarr:listarr /app \
-    && chown listarr:listarr /app/server/config
 
 EXPOSE 5000
 
 # Change User to created User
 USER listarr
+
+RUN mkdir -p /app/server/conf
+
 CMD ["npm", "start"]
