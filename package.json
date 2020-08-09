@@ -12,7 +12,7 @@
     "react-scripts": "3.4.1"
   },
   "scripts": {
-    "setup": "npm install && (cd server && mkdir -p /app/server/config && npm install && cd ../)",
+    "setup": "npm install && (cd server && npm run setup && npm install && cd ../)",
     "start": "npm run build && (cd server && npm start)",
     "start-client": "react-scripts start",
     "build": "react-scripts build",
