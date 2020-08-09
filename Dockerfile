@@ -7,14 +7,16 @@ RUN apt-get update -yq \
     && apt-get install nodejs -yq \
     && mkdir -p /app/server/config
 
+# Copy and Setup App
+WORKDIR /app
+COPY . /app
+RUN npm run setup
+
 # Add User/Group and make User owner of the root directory
 RUN groupadd -r listarr \
     && useradd -r -s /bin/false -g listarr listarr \
     && chown -R listarr:listarr /app
 
-WORKDIR /app
-COPY . /app
-RUN npm run setup
 EXPOSE 5000
 
 # Change User to created User

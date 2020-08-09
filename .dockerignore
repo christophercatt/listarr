@@ -7,6 +7,7 @@
 .cache
 
 # Ignore application files
+homescreen.png
 build
 node_modules
 /server/node_modules
