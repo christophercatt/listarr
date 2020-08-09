@@ -4,8 +4,7 @@ FROM ubuntu:latest
 RUN apt-get update -yq \
     && apt-get install curl gnupg -yq \
     && curl -sL https://deb.nodesource.com/setup_14.x | bash \
-    && apt-get install nodejs -yq \
-    && mkdir -p /app/server/config
+    && apt-get install nodejs -yq 
 
 # Copy and Setup App
 WORKDIR /app
