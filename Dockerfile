@@ -10,7 +10,7 @@ RUN apt-get update -yq \
 # Add User/Group and make User owner of the root directory
 RUN groupadd -r listarr \
     && useradd -r -s /bin/false -g listarr listarr \
-    && chown -R listarr:listarr /
+    && chown -R listarr:listarr /app
 
 WORKDIR /app
 COPY . /app
