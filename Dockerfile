@@ -14,7 +14,7 @@ RUN npm run setup
 # Add User/Group and make User owner of the root directory
 RUN groupadd -r listarr \
     && useradd -r -s /bin/false -g listarr listarr \
-    && chown -R listarr:listarr /app \
+    && chown -R listarr:listarr /app 
 
 EXPOSE 5000
 
