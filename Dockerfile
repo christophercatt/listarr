@@ -12,7 +12,8 @@ COPY . /app
 RUN npm run setup
 
 # Add User/Group and make User owner of the root directory
-RUN groupadd -r listarr \
+RUN rm -rf /app/server/config
+    && groupadd -r listarr \
     && useradd -r -s /bin/false -g listarr listarr \
     && chown -R listarr:listarr /app 
 
@@ -21,6 +22,6 @@ EXPOSE 5000
 # Change User to created User
 USER listarr
 
-RUN mkdir -p /app/server/conf
+RUN mkdir -p /app/server/config
 
 CMD ["npm", "start"]
