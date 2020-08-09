@@ -12,7 +12,7 @@ COPY . /app
 RUN npm run setup
 
 # Add User/Group and make User owner of the root directory
-RUN rm -rf /app/server/config
+RUN rm -rf /app/server/config \
     && groupadd -r listarr \
     && useradd -r -s /bin/false -g listarr listarr \
     && chown -R listarr:listarr /app 
