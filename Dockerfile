@@ -16,7 +16,8 @@ RUN apt-get update -yq \
 WORKDIR /app
 VOLUME /app/server/config
 COPY . /app
-RUN npm run setup
+RUN npm run setup \
+    && chmod +x docker-entrypoint.sh
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 
