@@ -19,7 +19,7 @@ COPY . /app
 RUN npm run setup \
     && chmod +x docker-entrypoint.sh
 
-ENTRYPOINT ["docker-entrypoint.sh"]
+#ENTRYPOINT ["docker-entrypoint.sh"]
 
 EXPOSE 5000
 CMD ["npm", "start"]
