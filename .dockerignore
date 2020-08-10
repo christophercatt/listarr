@@ -1,0 +1,15 @@
+# Ignore .dockerignore file
+.dockerignore
+
+# Ignore Git files
+.gitignore
+.git
+.cache
+
+# Ignore application files
+homescreen.png
+build
+node_modules
+/server/node_modules
+/server/routes/tests.js
+/server/config
