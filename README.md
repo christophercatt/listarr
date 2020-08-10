@@ -41,7 +41,7 @@ To build from source
 docker build -t ccatt601/listarr .
 
 #Run the image
-docker run -d -p 'host port':5000 -v /path/to/store/data:/server/config/ ccatt601/listarr
+docker run -d -p 'host port':5000 -v /path/to/store/data:/app/server/config/ ccatt601/listarr
 ```
 
 The Docker Image is also available on [Docker Hub](https://hub.docker.com/repository/docker/ccatt601/listarr)
