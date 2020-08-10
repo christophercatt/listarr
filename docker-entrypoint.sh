@@ -1,7 +1,14 @@
 #!/bin/bash
-
 set -e
 
-chown -R listarr:listarr /app
+if [ "$1" = 'npm' ]; then
 
-exec gosu listarr "$@"
+    chown -R -c listarr:listarr /app/server/
+
+    echo "Finished Fixing Permissions"
+
+    exec gosu listarr "$@"
+
+fi
+
+exec "$@"
