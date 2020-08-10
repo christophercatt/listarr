@@ -3,7 +3,7 @@ set -e
 
 if [ "$1" = 'npm' ]; then
 
-    chown -R -c listarr:listarr /app/server/
+    chown -R -c listarr:listarr /app/server/config
 
     echo "Finished Fixing Permissions"
 
